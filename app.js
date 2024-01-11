@@ -34,15 +34,27 @@ app.get('/api/v1/tours', (req, res) => {
   });
 });
 
-app.get('/api/v1/tours/:id/:x/:y', (req, res) => {
-  console.log(req.params); // "req.params" - automatically assings the value to our variable, so our parameter that we defined in Postman ("{ id: '5', x: '23', y: '45' } in console")
+app.get('/api/v1/tours/:id', (req, res) => {
+  console.log(req.params); // "req.params" - automatically assings the value to our variable, so our parameter that we defined in Postman ("{ id: '5' } in console")
+
+  const id = req.params.id * 1; // преобразую строку в намбер
+  const tour = tours.find((el) => el.id === id);
+
+  // First solution for non-existent id
+  // if (id > tours.length) {
+  // Second solution for non-existent id
+  if (!tour) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid ID',
+    });
+  }
 
   res.status(200).json({
     status: 'success',
-    // results: tours.length,
-    // data: {
-    //   tours: tours,
-    // },
+    data: {
+      tours: tour,
+    },
   });
 });
 
