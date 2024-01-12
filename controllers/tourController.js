@@ -15,6 +15,17 @@ exports.checkID = (req, res, next, val) => {
   next();
 };
 
+exports.checkBody = (req, res, next) => {
+  // console.log(`Name: ${val.name}; Price: ${val.price}`);
+  if (!req.body.name || !req.body.price) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Missing name or price',
+    });
+  }
+  next();
+};
+
 // Получить все туры
 exports.getAllTours = (req, res) => {
   console.log(req.requestTime);
